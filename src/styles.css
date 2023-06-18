@@ -1,1 +1,31 @@
 /* You can add global styles to this file, and also import other style files */
+.container {
+    height: 80vh;
+    overflow: auto;
+    border: 1px solid grey;
+}
+
+.container .row {
+    height: 50px;
+    border-radius: 3px;
+}
+
+/* searchbar */
+.row .col-md-5 .input-group-prepend button {
+    border-radius: 0 !important;
+    border-right: unset !important;
+    border: 1px solid;
+    border-top-left-radius: 6px !important;
+    border-bottom-left-radius: 6px !important;
+}
+
+.row .col-md-5 input {
+    border-left: unset !important;
+    outline: unset !important;
+    border: 1px solid;
+    padding-left: unset !important;
+
+
+}
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }

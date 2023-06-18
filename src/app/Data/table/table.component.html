@@ -1,0 +1,92 @@
+<table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+  <ng-container matColumnDef="check">
+    <th mat-header-cell *matHeaderCellDef> <input type="checkbox" disabled> </th>
+    <td mat-cell *matCellDef="let element"> <input type="checkbox"> </td>
+  </ng-container>
+  <ng-container matColumnDef="categoryName">
+    <th mat-header-cell *matHeaderCellDef> CategoryName </th>
+    <td mat-cell *matCellDef="let element"> {{element.categoryName}} </td>
+  </ng-container>
+
+  <ng-container matColumnDef="titleEnglish">
+    <th mat-header-cell *matHeaderCellDef> Name(Eng) </th>
+    <td mat-cell *matCellDef="let element"> {{element.titleEnglish}} </td>
+  </ng-container>
+
+  <ng-container matColumnDef="titleFrench">
+    <th mat-header-cell *matHeaderCellDef> Name(frn) </th>
+    <td mat-cell *matCellDef="let element"> {{element.titleFrench}} </td>
+  </ng-container>
+
+  <ng-container matColumnDef="status">
+    <th mat-header-cell *matHeaderCellDef> Status </th>
+    <td mat-cell *matCellDef="let element"> {{element.status}} </td>
+  </ng-container>
+
+  <ng-container matColumnDef="actions">
+    <th mat-header-cell *matHeaderCellDef> Actions </th>
+    <td mat-cell *matCellDef="let element">
+      <button class="btn btn-primary mx-4" (click)="EditCategory(element)">Edit</button>
+      <button class="btn btn-danger">Delete</button>
+    </td>
+  </ng-container>
+
+
+  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+  <tr mat-row *matRowDef="let row; columns: displayedColumns; let rowIndex = index " (click)="getCategory(row,rowIndex)" 
+    class="bg-color"></tr>
+   
+</table>
+
+<div *ngIf="dataSource.length === 0">No records found</div>
+
+
+
+
+
+<!-- Edit Modal Box -->
+
+<!-- <button (click)="openModal()">Open Modal</button> -->
+<div *ngIf="showModal" class="modal-overlay">
+  <div class="modal-container">
+    <h2>Modal Box</h2>
+    <form [formGroup]="EditForm" >
+      <label for="name">Category Name:</label>
+      <input type="text" id="name" name="name" required formControlName="categoryName">
+
+      <label for="email">Title English:</label>
+      <input type="email" id="email" name="email" required formControlName="titleEnglish">
+
+      <label for="email">Title French:</label>
+      <input type="email" id="email" name="email" required formControlName="titleFrench">
+      <button type="submit" (click)="closeModal()">Change</button>
+    </form>
+  </div>
+</div>
+
+<!-- Modal For New Category -->
+<div *ngIf="showModalForNewCategory" class="modal-overlay">
+  <div class="modal-container">
+    <h2>Modal Box <span style="font-weight: bolder; float: right;" (click)="closeModalOfAdd()">X</span> </h2>
+    <form [formGroup]="createForm">
+      <!-- <label for="name">Unique Category Id:</label> -->
+      <input type="text" style="display: none;" id="name" name="name" required formControlName="categoryId">
+
+      <label for="name">Category Name:</label>
+      <input type="text" required formControlName="categoryName">
+
+      <label for="email">Title English:</label>
+      <input type="email" required formControlName="titleEnglish">
+
+      <label for="email">Title French:</label>
+      <input type="email" required formControlName="titleFrench">
+
+      <label for="email">Status:</label>
+      <select formControlName="status">
+        <option value="Active">Active</option>
+        <option value="InActive">InActive</option>
+      </select>
+      <button type="submit" (click)="addNewCategory()">Add</button>
+    </form>
+  </div>
+</div>

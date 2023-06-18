@@ -1,0 +1,17 @@
+/* Customize the scrollbar track for your own div */
+.container::-webkit-scrollbar-track {
+    background-color: #f1f1f1; /* Change the background color of the track */
+  }
+  
+  /* Customize the scrollbar thumb for your own div */
+  .container::-webkit-scrollbar-thumb {
+    background-color: #888; /* Change the color of the thumb */
+    border-radius: 1px; /* Add rounded corners to the thumb */
+    border-radius: 3px  ;
+  }
+  
+  /* Customize the scrollbar on hover for your own div */
+  .container::-webkit-scrollbar-thumb:hover {
+    background-color: #555; /* Change the color of the thumb on hover */
+  }
+  

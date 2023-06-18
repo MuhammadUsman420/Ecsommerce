@@ -1,0 +1,12 @@
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item" *ngFor="let item of breadcrumbItems; let last = last" [class.active]="last">
+        <!-- <a href="">{{item}}</a> -->
+        <a (click)="passPosition(item)">{{ item.uId }}</a>
+        <!-- <span *ngIf="last">{{ item }}</span> -->
+      </li>
+    </ol>
+  </nav>
+  
+
+   <!-- <p>works</p> -->
