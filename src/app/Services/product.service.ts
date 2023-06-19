@@ -33,6 +33,14 @@ export class ProductService {
     return this.http.post(this._url + "product/",obj);
   }
 
+  deleteCategory(id:any , obj:any){
+    return this.http.put(this._url+"product/"+id , obj);
+  }
+
+  deleteParentLevel(id:any){
+    return this.http.delete(this._url+ "product/"+id)
+  }
+
   mySubject: Subject<any> = new Subject<any>();
 
 

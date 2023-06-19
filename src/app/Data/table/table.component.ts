@@ -11,7 +11,8 @@ export interface Category {
   titleFrench: string;
   status: string;
   actions: string;
-  childrenCategories:Category[];
+  id: number
+  childrenCategories: Category[];
 }
 
 @Component({
@@ -39,6 +40,9 @@ export class TableComponent {
   isShow: boolean | undefined;
   paramId: any;
   isChild: boolean = true;
+  datastore: any = [];
+  getProductId1: any;
+  uniqNumberToGet: any;
 
   constructor(private products_service: ProductService, private fb: FormBuilder, private route: ActivatedRoute,
     private router: Router) {
@@ -50,10 +54,18 @@ export class TableComponent {
       status: [''],
       childrenCategories: this.fb.array([])
     });
+
+    this.EditForm = this.fb.group({
+      categoryName: [''],
+      titleEnglish: [''],
+      titleFrench: [''],
+      status: [''],
+      uniqueCategoryNumber: [this.getProductId],
+      childrenCategories: this.fb.array([])
+    });
   }
 
   ngOnInit(): any {
-   // this.getProducts();
     this.products_service.mySubject.subscribe(res => {
       if (res == "true") {
         this.openModalForAddNewCategory();
@@ -65,35 +77,31 @@ export class TableComponent {
       const unique = params['uniq'];
       if (id) {
         this.products_service.getProductsById(id).subscribe(res => {
-          debugger
           if (res != undefined && res.uniqueCategoryNumber == unique) {
             this.dataSource = res.childrenCategories
-            console.log(this.dataSource);
-           
+
           } else {
             this.dataSource = this.findCategory(res.childrenCategories, unique);
-          
+
           }
         })
-      } else{
+      } else {
         this.getProducts();
       }
     });
   }
 
   getProducts() {
-    debugger;
     this.products_service.getProducts().subscribe(res => {
       this.dataSource = res;
       this.dataStorageForEdit = res;
-     
+
+
     })
   }
 
   addIntoProduct(newChild: any, data: any, uniqueNumber: any, isChild: boolean) {
-    debugger
     if (data.some((c: any) => c.uniqueCategoryNumber == uniqueNumber)) {
-      console.log("okay");
       let obj = data.find((d: any) => d.uniqueCategoryNumber == uniqueNumber)
       obj.childrenCategories.push(newChild)
       return;
@@ -105,7 +113,6 @@ export class TableComponent {
   }
 
   findCategory(data: any, uniqueNumber: any) {
-    debugger
     if (data.some((c: any) => c.uniqueCategoryNumber == uniqueNumber)) {
       return data.find((d: any) => d.uniqueCategoryNumber == uniqueNumber).childrenCategories;
     } else {
@@ -116,9 +123,10 @@ export class TableComponent {
   }
 
   getCategory(obj: any, index: any) {
-    if(obj.id) {
+    if (obj.id) {
       this.parentId = obj.id;
     }
+    this.uniqNumberToGet = obj.uniqueCategoryNumber
 
     this.router.navigate([''], { queryParams: { id: this.parentId, uniq: obj.uniqueCategoryNumber, isChild: this.isChild } });
   }
@@ -132,26 +140,90 @@ export class TableComponent {
     this.showModalForNewCategory = false
   }
 
-  closeModal() {
-    if (this.check == true) {
-      this.showModal = false;
+  closeModalOfEdit(){
+    this.showModal=false
+  }
+
+  update() {
+
+    this.route.queryParams.subscribe(params => {
+      const id = params['id'];
+      const unique = params['uniq'];
+      const isChild = params['isChild']
+
+      if (id == null) {
+        let find = this.dataStorageForEdit.find((el: any) => el.id == this.getProductId1)
+
+        let storeChilds1 = find.childrenCategories;
+
+        let storeChilds = find.childrenCategories;
+        storeChilds.categoryName = this.EditForm.value.categoryName;
+        storeChilds.titleEnglish = this.EditForm.value.titleEnglish;
+        storeChilds.titleEnglish = this.EditForm.value.titleEnglish;
+        storeChilds.uniqueCategoryNumber = this.EditForm.value.uniqueCategoryNumber;
+        this.EditForm.value.childrenCategories = storeChilds1
+        storeChilds.status = this.EditForm.value.status
+
+        this.products_service.editProductCategory(find.id, this.EditForm.value).subscribe(res => {
+          this.updatedResponse = res;
+        })
+
+
+      } else {
+
+        this.products_service.getProducts().subscribe(res => {
+          this.dataStorageForEdit = res;
+          this.datastore = this.dataStorageForEdit.filter((d: any) => d.id == id);
+          this.findParticularCategory(this.EditForm.value, this.datastore, unique, id);
+          this.products_service.editProductCategory(id, this.datastore[0]).subscribe(res => {
+            this.updatedResponse = res;
+          })
+        })
+      }
+    })
+
+    this.showModal = false;
+  }
+
+  findParticularCategory(newChild: any, data: any, uniq: any, id: any) {
+
+    if (data.some((c: any) => c.uniqueCategoryNumber == uniq)) {
+      let obj = data.find((d: any) => d.uniqueCategoryNumber == uniq)
+
+      let childs = obj.childrenCategories;
+      if (childs.length == null) {
+        obj.childrenCategories[0] = newChild
+      } else {
+        let findObject = obj.childrenCategories.find((el: any) => el.uniqueCategoryNumber == this.getProductId);
+        let finIndex = obj.childrenCategories.findIndex((el: any) => el.uniqueCategoryNumber == this.getProductId)
+
+        let collectChild = findObject.childrenCategories;
+        this.EditForm.value.childrenCategories = collectChild
+        findObject.categoryName = this.EditForm.value.categoryName;
+        findObject.titleEnglish = this.EditForm.value.titleEnglish;
+        findObject.titleEnglish = this.EditForm.value.titleEnglish;
+        findObject.uniqueCategoryNumber = this.EditForm.value.uniqueCategoryNumber;
+        obj.childrenCategories[finIndex] = this.EditForm.value;
+        findObject.status = this.EditForm.value.status
+      }
+      return;
+    } else {
+      for (let d of data) {
+        this.findParticularCategory(newChild, d.childrenCategories, uniq, id)
+      }
     }
-    this.showModalForNewCategory = false
 
   }
 
-  EditCategory(obj: Category) {
-    this.objectForPatching = obj;
+  EditCategory(obj: Category, event: Event) {
+    event.stopPropagation();
     this.showModal = true;
     this.getProductId = obj.uniqueCategoryNumber;
 
+    this.getProductId1 = obj.id;
+
     this.selectedItem = obj;
-    this.EditForm = this.fb.group({
-      categoryId: [''],
-      categoryName: [''],
-      titleEnglish: [''],
-      titleFrench: ['']
-    });
+
 
     this.EditForm.patchValue(this.selectedItem);
     this.openEdit = true;
@@ -162,21 +234,13 @@ export class TableComponent {
   }
 
   addNewCategory() {
-    debugger
-
     this.route.queryParams.subscribe(params => {
-      debugger;
       const id = params['id'];
       const unique = params['uniq'];
 
       if (id == null) {
-
-        console.log(this.createForm.value);
-
-
         this.products_service.addCategory(this.createForm.value).subscribe(res => {
           this.newResponseAfterAdd = res
-          console.log(this.newResponseAfterAdd);
           this.getProducts();
           this.showModalForNewCategory = false
         })
@@ -199,15 +263,66 @@ export class TableComponent {
 
         this.products_service.editProductCategory(this.paramId, data[0]).subscribe(res => {
           this.updatedResponse = res;
-          console.log(this.updatedResponse);
         })
       }
     });
 
   }
 
-  isEmpty(dataSource:Category[]){
-      
+  isEmpty(dataSource: Category[]) {
+
+  }
+
+  deleteCategory(obj: any, event: Event) {
+    event.stopPropagation();
+    this.route.queryParams.subscribe(params => {
+      const id = params['id'];
+      const unique = params['uniq'];
+
+
+      if (id) {
+        this.products_service.getProducts().subscribe(res => {
+          this.dataStorageForEdit = res;
+          this.datastore = this.dataStorageForEdit.filter((d: any) => d.id == id);
+
+          this.findForDelete(obj, this.datastore, obj.uniqueCategoryNumber, unique);
+
+          this.products_service.deleteCategory(id, this.datastore[0]).subscribe(res => {
+            this.updatedResponse = res;
+
+          })
+
+
+        })
+      } else {
+
+
+        this.products_service.deleteParentLevel(obj.id).subscribe(res => {
+          this.updatedResponse = res;
+
+        })
+      }
+    })
+
+  }
+
+
+  findForDelete(object: any, data: any, uniq: any, uniqno: any) {
+    if (data.some((c: any) => c.uniqueCategoryNumber == uniq)) {
+      let obj = data.find((d: any) => d.uniqueCategoryNumber == uniq);
+
+      let findIndex = data.findIndex((el: any) => el.uniqueCategoryNumber == uniq);
+      data.splice(findIndex, 1)
+
+
+      return;
+    } else {
+      for (let d of data) {
+        this.findForDelete(object, d.childrenCategories, uniq, uniq)
+      }
+    }
   }
 
 }
+
+

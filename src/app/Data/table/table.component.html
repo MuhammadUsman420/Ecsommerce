@@ -23,11 +23,11 @@
     <td mat-cell *matCellDef="let element"> {{element.status}} </td>
   </ng-container>
 
-  <ng-container matColumnDef="actions">
+  <ng-container matColumnDef="actions" class="disabled">
     <th mat-header-cell *matHeaderCellDef> Actions </th>
     <td mat-cell *matCellDef="let element">
-      <button class="btn btn-primary mx-4" (click)="EditCategory(element)">Edit</button>
-      <button class="btn btn-danger">Delete</button>
+      <button class="btn btn-primary mx-4" (click)="EditCategory(element,$event)"> <span> Edit </span> </button>
+      <button class="btn btn-danger"  (click)="deleteCategory(element ,$event)">Delete</button>
     </td>
   </ng-container>
 
@@ -41,15 +41,13 @@
 <div *ngIf="dataSource.length === 0">No records found</div>
 
 
-
-
-
 <!-- Edit Modal Box -->
 
 <!-- <button (click)="openModal()">Open Modal</button> -->
 <div *ngIf="showModal" class="modal-overlay">
   <div class="modal-container">
-    <h2>Modal Box</h2>
+    <h2>Edit Category <span style="font-weight: bolder; float: right;" (click)="closeModalOfEdit()">X</span> </h2>
+
     <form [formGroup]="EditForm" >
       <label for="name">Category Name:</label>
       <input type="text" id="name" name="name" required formControlName="categoryName">
@@ -59,7 +57,13 @@
 
       <label for="email">Title French:</label>
       <input type="email" id="email" name="email" required formControlName="titleFrench">
-      <button type="submit" (click)="closeModal()">Change</button>
+
+      <label for="email">Status:</label>
+      <select formControlName="status">
+        <option value="Active">Active</option>
+        <option value="InActive">InActive</option>
+      </select>
+      <button type="submit" (click)="update()">Change</button>
     </form>
   </div>
 </div>
@@ -67,7 +71,7 @@
 <!-- Modal For New Category -->
 <div *ngIf="showModalForNewCategory" class="modal-overlay">
   <div class="modal-container">
-    <h2>Modal Box <span style="font-weight: bolder; float: right;" (click)="closeModalOfAdd()">X</span> </h2>
+    <h2>Add Category <span style="font-weight: bolder; float: right;" (click)="closeModalOfAdd()">X</span> </h2>
     <form [formGroup]="createForm">
       <!-- <label for="name">Unique Category Id:</label> -->
       <input type="text" style="display: none;" id="name" name="name" required formControlName="categoryId">

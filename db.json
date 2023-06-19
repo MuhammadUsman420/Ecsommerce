@@ -1,74 +1,39 @@
 {
   "product": [
     {
-      "uniqueCategoryNumber": "589691e5-383a-4866-86bd-bc519ef63eb9",
       "categoryName": "Home",
       "titleEnglish": "Home",
       "titleFrench": "Home",
       "status": "InActive",
+      "uniqueCategoryNumber": "589691e5-383a-4866-86bd-bc519ef63eb9",
       "childrenCategories": [
         {
-          "uniqueCategoryNumber": "9765c68f-88e6-44ce-949a-02af4375b449",
-          "categoryName": "kitchen",
-          "titleEnglish": "kitchen",
-          "titleFrench": "kitchen",
-          "status": "Active",
-          "childrenCategories": [
-            {
-              "uniqueCategoryNumber": "9765c68f-88e6-44ce-949a-02af4375000",
-              "categoryName": "a",
-              "titleEnglish": "a",
-              "titleFrench": "a",
-              "status": "Active",
-              "childrenCategories": []
-            }
-          ]
-        },
-        {
-          "uniqueCategoryNumber": "3d427795-5349-42ad-932c-9955fd26b7a6",
           "categoryName": "spoon",
           "titleEnglish": "spoon",
           "titleFrench": "spoon",
-          "status": "InActive",
+          "status": "Active",
+          "uniqueCategoryNumber": "3d427795-5349-42ad-932c-9955fd26b7a6",
           "childrenCategories": []
         },
         {
-          "uniqueCategoryNumber": "bf91e079-f9bd-4919-8cd5-a9e6a530cc5c",
           "categoryName": "room",
-          "titleEnglish": "room",
+          "titleEnglish": "bathroom",
           "titleFrench": "room",
-          "status": "Active",
+          "status": "InActive",
+          "uniqueCategoryNumber": "bf91e079-f9bd-4919-8cd5-a9e6a530cc5c",
           "childrenCategories": [
             {
-              "uniqueCategoryNumber": "20395334-8a8a-4260-8975-86cb1bf875f1",
-              "categoryName": "Master Room",
-              "titleEnglish": "Master Room",
+              "categoryName": "Master BedRoom",
+              "titleEnglish": "Master BedRoom",
               "titleFrench": "Master Room",
               "status": "Active",
+              "uniqueCategoryNumber": "20395334-8a8a-4260-8975-86cb1bf875f1",
               "childrenCategories": []
             }
           ]
         }
       ],
       "id": 1
-    },
-    {
-      "uniqueCategoryNumber": "1567f367-680c-4309-b3bb-47f6a8d636fa",
-      "categoryName": "vehical",
-      "titleEnglish": "vehical",
-      "titleFrench": "vehical",
-      "status": "InActive",
-      "childrenCategories": [],
-      "id": 2
-    },
-    {
-      "uniqueCategoryNumber": "50c0459b-644a-472f-96eb-e8abb64e89af",
-      "categoryName": "Electronic",
-      "titleEnglish": "Electronic",
-      "titleFrench": "Electronic",
-      "status": "Active",
-      "childrenCategories": [],
-      "id": 3
     },
     {
       "uniqueCategoryNumber": "a3186712-c8e6-4750-bc39-1122fc026f94",
@@ -78,15 +43,50 @@
       "status": "Active",
       "childrenCategories": [
         {
-          "uniqueCategoryNumber": "0492effd-2538-459c-ad8c-18e0dd4fde65",
-          "categoryName": "Daraz",
-          "titleEnglish": "Daraz",
-          "titleFrench": "Daraz",
+          "uniqueCategoryNumber": "c512eb93-dfcc-42ae-a1b9-c51c2e7dce83",
+          "categoryName": "daraz",
+          "titleEnglish": "daraz",
+          "titleFrench": "daraz",
           "status": "Active",
           "childrenCategories": []
         }
       ],
       "id": 4
+    },
+    {
+      "uniqueCategoryNumber": "dd8b9a76-8d90-486b-b0d4-c14d4e0ffb66",
+      "categoryName": "washroom",
+      "titleEnglish": "washroom",
+      "titleFrench": "washroom",
+      "status": "Active",
+      "childrenCategories": [
+        {
+          "uniqueCategoryNumber": "dd8b9a76-8d90-486b-b0d4-c14d4e0ffb66",
+          "categoryName": "washroom",
+          "titleEnglish": "washroom",
+          "titleFrench": "washroom",
+          "status": "Active",
+          "childrenCategories": []
+        },
+        {
+          "uniqueCategoryNumber": "dd8b9a76-8d90-486b-b0d4-c14d4e0ffb66",
+          "categoryName": "main",
+          "titleEnglish": "main",
+          "titleFrench": "main",
+          "status": "InActive",
+          "childrenCategories": []
+        }
+      ],
+      "id": 5
+    },
+    {
+      "uniqueCategoryNumber": "1edc30e8-0c35-472d-8620-80898be5b37e",
+      "categoryName": "daraz",
+      "titleEnglish": "daraz",
+      "titleFrench": "daraz",
+      "status": "Active",
+      "childrenCategories": [],
+      "id": 6
     }
   ]
 }
